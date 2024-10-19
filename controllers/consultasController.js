@@ -7,20 +7,31 @@ exports.getConsultations = (req, res) => {
       }
       res.json(rows);
     });
-  };
+};
+
+exports.getUserConsultations = (req, res) => {
+    const userId = req.user.id; // Pegamos o ID do usuário autenticado
+    db.all(`SELECT * FROM consultations WHERE userId = ?`, [userId], (err, rows) => {
+      if (err) {
+        return res.status(500).json({ error: err.message });
+      }
+      res.json(rows);
+    });
+};
   
-  exports.createConsultation = (req, res) => {
+  
+exports.createConsultation = (req, res) => {
     const { userId, date, doctor, specialty, status } = req.body;
     db.run(`INSERT INTO consultations (userId, date, doctor, specialty, status) VALUES (?, ?, ?, ?, ?)`,
-      [userId, date, doctor, specialty, status],
-      function (err) {
+        [userId, date, doctor, specialty, status],
+        function (err) {
         if (err) {
-          return res.status(500).json({ error: err.message });
+            return res.status(500).json({ error: err.message });
         }
         res.status(201).json({ id: this.lastID });
-      }
+        }
     );
-  };
+};
 
 // Atualizar consulta
 exports.updateConsultation = (req, res) => {
