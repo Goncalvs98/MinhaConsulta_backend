@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const db = require('../db/database');
 
 const router = express.Router();
-const JWT_SECRET = 'daniel-gostoso';
+const JWT_SECRET = 'VladOEmpalador';
 
 router.post('/register', (req, res) => {
    const { username, password, confirmPassword } = req.body;
